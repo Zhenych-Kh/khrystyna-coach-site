@@ -436,3 +436,26 @@ h1 {
     min-height: 170px;
   }
 }
+
+.rating {
+  display: flex;
+  gap: 6px;
+  font-size: 34px;
+  line-height: 1;
+  margin: 4px 0 6px;
+}
+
+.rating span {
+  color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: 0.2s ease;
+  user-select: none;
+}
+
+.rating span.active {
+  color: #d6aa4b;
+}
+
+.rating span:hover {
+  transform: scale(1.08);
+}

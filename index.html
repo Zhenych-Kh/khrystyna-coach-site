@@ -100,14 +100,15 @@
     <form class="review-form">
       <input type="text" placeholder="Ваше ім’я" required />
 
-      <select required>
-        <option value="">Оцінка</option>
-        <option value="5">★★★★★ 5</option>
-        <option value="4">★★★★☆ 4</option>
-        <option value="3">★★★☆☆ 3</option>
-        <option value="2">★★☆☆☆ 2</option>
-        <option value="1">★☆☆☆☆ 1</option>
-      </select>
+<div class="rating">
+  <span data-value="1">★</span>
+  <span data-value="2">★</span>
+  <span data-value="3">★</span>
+  <span data-value="4">★</span>
+  <span data-value="5">★</span>
+</div>
+
+<input type="hidden" id="ratingValue" value="0">
 
       <textarea placeholder="Ваш відгук" rows="5" required></textarea>
 
@@ -117,5 +118,7 @@
 </section>
 
   </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
