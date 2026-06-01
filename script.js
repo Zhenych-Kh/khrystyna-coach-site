@@ -16,3 +16,23 @@ stars.forEach((star) => {
     });
   });
 });
+
+const track = document.querySelector(".testimonials-track");
+const prevBtn = document.querySelector(".slider-btn.prev");
+const nextBtn = document.querySelector(".slider-btn.next");
+
+if (track && prevBtn && nextBtn) {
+  prevBtn.addEventListener("click", () => {
+    track.scrollBy({
+      left: -300,
+      behavior: "smooth",
+    });
+  });
+
+  nextBtn.addEventListener("click", () => {
+    track.scrollBy({
+      left: 300,
+      behavior: "smooth",
+    });
+  });
+}
