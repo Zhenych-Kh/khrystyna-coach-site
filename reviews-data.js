@@ -1,0 +1,92 @@
+window.reviewsData = [
+  {
+    name: "Анна",
+    rating: 5,
+    language: "uk",
+    text: "Дуже сподобався підхід. Тренування зрозумілі, комфортні та реально дають результат.",
+  },
+  {
+    name: "Марія",
+    rating: 5,
+    language: "uk",
+    text: "Христина допомогла мені повернути дисципліну, покращити форму і не зірватися по харчуванню.",
+  },
+  {
+    name: "Олена",
+    rating: 5,
+    language: "uk",
+    text: "Дуже підтримуючий тренер. Видно, що їй важливий не тільки результат, а й стан клієнта.",
+  },
+  {
+    name: "Iryna",
+    rating: 5,
+    language: "cs",
+    text: "Tréninkový plán byl jasný a bez zbytečného stresu. Po pár týdnech jsem viděla první změny.",
+  },
+  {
+    name: "Катерина",
+    rating: 5,
+    language: "uk",
+    text: "Мені сподобалося, що все пояснюється просто і по суті. Тренування легко вписалися в мій графік.",
+  },
+  {
+    name: "Sofie",
+    rating: 5,
+    language: "cs",
+    text: "Khrystyna hodně dbá na techniku. Cvičení je jistější a přestala jsem se bát silového tréninku.",
+  },
+  {
+    name: "Наталія",
+    rating: 5,
+    language: "uk",
+    text: "Без жорстких дієт і тиску. Просто поступовий прогрес, підтримка і нормальне ставлення до процесу.",
+  },
+  {
+    name: "Viktorie",
+    rating: 5,
+    language: "cs",
+    text: "Online vedení je velmi pohodlné. Vždy vím, co mám dělat a jak pokračovat dál.",
+  },
+  {
+    name: "Юлія",
+    rating: 5,
+    language: "uk",
+    text: "Після тренувань зʼявилось більше енергії, а тіло стало сильнішим. Дуже задоволена результатом.",
+  },
+  {
+    name: "Alina",
+    rating: 5,
+    language: "cs",
+    text: "Příjemná atmosféra a profesionální přístup. Neměla jsem pocit, že musím dělat nemožné.",
+  },
+  {
+    name: "Тетяна",
+    rating: 5,
+    language: "uk",
+    text: "Дуже ціную підтримку між тренуваннями. Це допомогло не кинути все після першого складного тижня.",
+  },
+  {
+    name: "Lilie",
+    rating: 5,
+    language: "cs",
+    text: "Program byl přizpůsobený mé úrovni. Cítila jsem progres bez zbytečného přetížení.",
+  },
+  {
+    name: "Дарина",
+    rating: 5,
+    language: "uk",
+    text: "Христина мотивує дуже мʼяко, але ефективно. Зʼявилась регулярність, якої мені бракувало.",
+  },
+  {
+    name: "Marta",
+    rating: 5,
+    language: "cs",
+    text: "Tréninky jsou pestré, nenudí a jsou dobře promyšlené. Nejvíc mi pomohla doporučení ke stravování.",
+  },
+  {
+    name: "Христина",
+    rating: 5,
+    language: "uk",
+    text: "Нарешті знайшла формат, який можу підтримувати довго. Результат є, і при цьому без крайнощів.",
+  },
+];
