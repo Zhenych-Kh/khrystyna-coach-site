@@ -393,6 +393,10 @@ h1 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.testimonial-card > * {
+  min-width: 0;
+}
+
 .testimonial-card[hidden] {
   display: none;
 }
@@ -413,6 +417,7 @@ h1 {
   color: #b8b8b8;
   font-size: 15px;
   line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .testimonials-action,
@@ -681,6 +686,12 @@ h1 {
 
   h1 {
     font-size: 36px;
+  }
+
+  .testimonial-card {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 15px 0;
   }
 
   .bottom-section {
