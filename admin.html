@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews Admin | Khrystyna Kryvko</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="admin-page">
+    <section class="admin-login-shell" id="adminLogin">
+      <span class="section-label">Admin</span>
+      <h1>Sign in</h1>
+      <p>Enter the admin login and password to moderate reviews.</p>
+
+      <form class="admin-login-form" id="adminLoginForm">
+        <label>
+          Login
+          <input type="text" id="adminEmail" autocomplete="username" placeholder="Enter login" required />
+        </label>
+        <label>
+          Password
+          <input type="password" id="adminPassword" autocomplete="current-password" required />
+        </label>
+        <button class="admin-login-btn" type="submit">Sign in</button>
+        <p class="admin-login-message" id="adminLoginMessage" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="admin-shell" id="adminContent" hidden>
+      <div class="admin-header">
+        <div>
+          <span class="section-label">Admin</span>
+          <h1>Review moderation</h1>
+        </div>
+        <div class="admin-header-actions">
+          <button class="admin-back-link" type="button" id="adminLogout">Logout</button>
+          <a class="admin-back-link" href="index.html">Back to site</a>
+        </div>
+      </div>
+
+      <div class="admin-toolbar">
+        <p id="adminSummary">Loading reviews...</p>
+        <button class="admin-refresh-btn" type="button" id="refreshReviews">Refresh</button>
+      </div>
+
+      <div class="admin-tabs" role="tablist" aria-label="Review status">
+        <button class="admin-tab active" type="button" data-tab="pending" role="tab" aria-selected="true">
+          New
+          <span class="admin-tab-badge" id="pendingTabBadge">0</span>
+        </button>
+        <button class="admin-tab" type="button" data-tab="approved" role="tab" aria-selected="false">
+          Published
+          <span class="admin-tab-badge" id="approvedTabBadge">0</span>
+        </button>
+      </div>
+
+      <div class="admin-review-groups">
+        <section class="admin-review-group active" data-panel="pending" role="tabpanel">
+          <div class="admin-group-header">
+            <div>
+              <span class="admin-group-label">Not visible on site</span>
+              <h2>New reviews</h2>
+            </div>
+            <span class="admin-count" id="pendingCount">0</span>
+          </div>
+          <div class="admin-reviews-list" id="pendingReviewsList"></div>
+        </section>
+
+        <section class="admin-review-group" data-panel="approved" role="tabpanel" hidden>
+          <div class="admin-group-header">
+            <div>
+              <span class="admin-group-label">Visible on site</span>
+              <h2>Published reviews</h2>
+            </div>
+            <span class="admin-count" id="approvedCount">0</span>
+          </div>
+          <div class="admin-reviews-list" id="approvedReviewsList"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

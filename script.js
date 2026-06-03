@@ -1,5 +1,22 @@
 const stars = document.querySelectorAll(".rating span");
 const ratingInput = document.getElementById("ratingValue");
+const reviewForm = document.querySelector(".review-form");
+const pageLanguage = document.documentElement.lang === "cs" ? "cs" : "uk";
+const reviewMessages = {
+  uk: {
+    ratingRequired: "Оберіть оцінку перед відправкою.",
+    sending: "Відправляємо відгук...",
+    success: "Дякуємо! Відгук надіслано на перевірку.",
+    error: "Не вдалося надіслати відгук. Спробуйте ще раз.",
+  },
+  cs: {
+    ratingRequired: "Vyberte hodnocení před odesláním.",
+    sending: "Odesíláme recenzi...",
+    success: "Děkujeme! Recenze byla odeslána ke kontrole.",
+    error: "Recenzi se nepodařilo odeslat. Zkuste to prosím znovu.",
+  },
+};
+const labels = reviewMessages[pageLanguage];
 
 stars.forEach((star) => {
   star.addEventListener("click", () => {
@@ -17,15 +34,79 @@ stars.forEach((star) => {
   });
 });
 
+const setReviewFormMessage = (message, type = "info") => {
+  if (!reviewForm) {
+    return;
+  }
+
+  let messageElement = reviewForm.querySelector(".review-form-message");
+
+  if (!messageElement) {
+    messageElement = document.createElement("p");
+    messageElement.className = "review-form-message";
+    reviewForm.appendChild(messageElement);
+  }
+
+  messageElement.textContent = message;
+  messageElement.dataset.type = type;
+};
+
+const resetRating = () => {
+  if (ratingInput) {
+    ratingInput.value = "0";
+  }
+
+  stars.forEach((star) => {
+    star.classList.remove("active");
+  });
+};
+
+if (reviewForm) {
+  reviewForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const nameInput = reviewForm.querySelector('input[type="text"]');
+    const textInput = reviewForm.querySelector("textarea");
+    const submitButton = reviewForm.querySelector('button[type="submit"]');
+    const rating = Number(ratingInput?.value || 0);
+
+    if (!rating) {
+      setReviewFormMessage(labels.ratingRequired, "error");
+      return;
+    }
+
+    const review = {
+      name: nameInput.value.trim(),
+      rating,
+      text: textInput.value.trim(),
+      pageLanguage,
+    };
+
+    submitButton.disabled = true;
+    setReviewFormMessage(labels.sending, "info");
+
+    try {
+      await window.saveReview(review);
+      reviewForm.reset();
+      resetRating();
+      setReviewFormMessage(labels.success, "success");
+    } catch (error) {
+      console.error(error);
+      setReviewFormMessage(labels.error, "error");
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+}
+
 const copyButtons = document.querySelectorAll(".copy-btn");
 
 const testimonialLists = document.querySelectorAll(".testimonials-list");
+let siteReviews = Array.isArray(window.reviewsData) ? window.reviewsData : [];
 
-const renderReviews = (list) => {
-  const language = list.dataset.reviewsLanguage;
-  const reviews = Array.isArray(window.reviewsData) ? window.reviewsData : [];
-
+const renderReviews = (list, reviews) => {
   if (!reviews.length) {
+    list.innerHTML = `<p class="testimonials-empty">${list.dataset.emptyLabel || "Reviews will appear soon."}</p>`;
     return;
   }
 
@@ -49,9 +130,7 @@ const renderReviews = (list) => {
   });
 };
 
-testimonialLists.forEach((list) => {
-  renderReviews(list);
-
+const setupTestimonialsList = (list) => {
   const cards = Array.from(list.querySelectorAll(".testimonial-card"));
   const section = list.closest(".testimonials-section");
   const showMoreLabel = list.dataset.showMoreLabel || "Show more reviews";
@@ -245,7 +324,28 @@ testimonialLists.forEach((list) => {
 
   action.appendChild(button);
   list.after(action);
-});
+};
+
+const initTestimonials = async () => {
+  if (!testimonialLists.length) {
+    return;
+  }
+
+  try {
+    if (window.loadReviews) {
+      siteReviews = await window.loadReviews();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  testimonialLists.forEach((list) => {
+    renderReviews(list, siteReviews);
+    setupTestimonialsList(list);
+  });
+};
+
+initTestimonials();
 
 const copyToClipboard = async (value) => {
   if (navigator.clipboard) {
