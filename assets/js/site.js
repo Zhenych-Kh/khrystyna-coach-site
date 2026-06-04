@@ -3,11 +3,15 @@ const ratingInput = document.getElementById("ratingValue");
 const ratingControl = document.querySelector(".rating");
 const reviewForm = document.querySelector(".review-form");
 const pageLanguage = document.documentElement.lang === "cs" ? "cs" : "uk";
+const reviewRateLimitKey = "khrystynaReviewSubmissions";
+const reviewRateLimitWindow = 5 * 60 * 1000;
+const reviewRateLimitMax = 2;
 const reviewMessages = {
   uk: {
     nameRequired: "Введіть ім'я перед відправкою.",
     ratingRequired: "Оберіть оцінку перед відправкою.",
     textRequired: "Напишіть текст відгуку перед відправкою.",
+    rateLimited: "Ви вже надіслали кілька відгуків. Спробуйте ще раз трохи пізніше.",
     sending: "Відправляємо відгук...",
     success: "Дякуємо! Відгук надіслано на перевірку.",
     error: "Не вдалося надіслати відгук. Спробуйте ще раз.",
@@ -16,6 +20,7 @@ const reviewMessages = {
     nameRequired: "Zadejte jméno před odesláním.",
     ratingRequired: "Vyberte hodnocení před odesláním.",
     textRequired: "Napište text recenze před odesláním.",
+    rateLimited: "Už jste odeslali několik recenzí. Zkuste to prosím o něco později.",
     sending: "Odesíláme recenzi...",
     success: "Děkujeme! Recenze byla odeslána ke kontrole.",
     error: "Recenzi se nepodařilo odeslat. Zkuste to prosím znovu.",
@@ -81,8 +86,26 @@ const keepFocusedFieldVisible = (field) => {
   }, 320);
 };
 
+const getRecentReviewSubmissions = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(reviewRateLimitKey) || "[]");
+    const now = Date.now();
+
+    return saved.filter((timestamp) => now - Number(timestamp) < reviewRateLimitWindow);
+  } catch (error) {
+    return [];
+  }
+};
+
+const canSubmitReview = () => getRecentReviewSubmissions().length < reviewRateLimitMax;
+
+const rememberReviewSubmission = () => {
+  const timestamps = [...getRecentReviewSubmissions(), Date.now()];
+  localStorage.setItem(reviewRateLimitKey, JSON.stringify(timestamps));
+};
+
 if (reviewForm) {
-  reviewForm.querySelectorAll("input, textarea").forEach((field) => {
+  reviewForm.querySelectorAll("input:not([type='hidden']):not([tabindex='-1']), textarea").forEach((field) => {
     field.addEventListener("focus", () => {
       keepFocusedFieldVisible(field);
     });
@@ -93,10 +116,20 @@ if (reviewForm) {
 
     const nameInput = reviewForm.querySelector('input[type="text"]');
     const textInput = reviewForm.querySelector("textarea");
+    const honeypotInput = reviewForm.querySelector('input[name="website"]');
     const submitButton = reviewForm.querySelector('button[type="submit"]');
     const name = nameInput.value.trim();
     const text = textInput.value.trim();
     const rating = Number(ratingInput?.value || 0);
+
+    if (honeypotInput?.value.trim()) {
+      return;
+    }
+
+    if (!canSubmitReview()) {
+      setReviewFormMessage(labels.rateLimited, "error");
+      return;
+    }
 
     if (!name) {
       setReviewFormMessage(labels.nameRequired, "error");
@@ -128,6 +161,7 @@ if (reviewForm) {
 
     try {
       await window.saveReview(review);
+      rememberReviewSubmission();
       reviewForm.reset();
       resetRating();
       setReviewFormMessage(labels.success, "success");

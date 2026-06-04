@@ -168,7 +168,7 @@ dlouhodobě.
     </div>
 
     <form class="review-form">
-      <input type="text" placeholder="Vaše jméno" required />
+      <input type="text" placeholder="Vaše jméno" maxlength="80" required />
 
 <div class="rating" tabindex="0" role="radiogroup" aria-label="Hodnocení">
   <span data-value="1">★</span>
@@ -180,7 +180,12 @@ dlouhodobě.
 
 <input type="hidden" id="ratingValue" value="0">
 
-      <textarea placeholder="Vaše recenze" rows="5" required></textarea>
+      <textarea placeholder="Vaše recenze" rows="5" maxlength="800" required></textarea>
+
+      <label class="review-honeypot" aria-hidden="true">
+        Website
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
 
       <button type="submit">Odeslat recenzi</button>
     </form>

@@ -168,7 +168,7 @@
     </div>
 
     <form class="review-form">
-      <input type="text" placeholder="Ваше ім’я" required />
+      <input type="text" placeholder="Ваше ім’я" maxlength="80" required />
 
 <div class="rating" tabindex="0" role="radiogroup" aria-label="Оцінка">
   <span data-value="1">★</span>
@@ -180,7 +180,12 @@
 
 <input type="hidden" id="ratingValue" value="0">
 
-      <textarea placeholder="Ваш відгук" rows="5" required></textarea>
+      <textarea placeholder="Ваш відгук" rows="5" maxlength="800" required></textarea>
+
+      <label class="review-honeypot" aria-hidden="true">
+        Website
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
 
       <button type="submit">Надіслати відгук</button>
     </form>
