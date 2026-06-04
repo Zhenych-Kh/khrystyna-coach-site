@@ -182,6 +182,8 @@ h1 {
 }
 
 .contact-panel {
+  position: relative;
+  overflow: hidden;
   margin-bottom: 28px;
   padding: 18px;
   border: 1px solid rgba(214, 170, 75, 0.22);
@@ -189,6 +191,44 @@ h1 {
   background:
     linear-gradient(145deg, rgba(214, 170, 75, 0.13), rgba(255, 255, 255, 0.035)),
     rgba(255, 255, 255, 0.035);
+}
+
+.contact-panel::before {
+  content: "";
+  position: absolute;
+  top: -55%;
+  bottom: -55%;
+  left: -34%;
+  width: 18%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.012) 38%,
+    rgba(255, 224, 150, 0.095) 50%,
+    rgba(255, 255, 255, 0.012) 62%,
+    transparent 100%
+  );
+  filter: blur(7px);
+  opacity: 0.88;
+  pointer-events: none;
+  transform: skewX(-18deg);
+  animation: contact-shimmer 7.6s ease-in-out infinite;
+}
+
+.contact-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes contact-shimmer {
+  0%,
+  64% {
+    left: -34%;
+  }
+
+  100% {
+    left: 116%;
+  }
 }
 
 .contact-heading {
@@ -328,6 +368,8 @@ h1 {
 }
 
 .btn {
+  position: relative;
+  isolation: isolate;
   text-decoration: none;
   padding: 14px 22px;
   border-radius: 999px;
@@ -338,10 +380,36 @@ h1 {
 .btn-primary {
   background: #d6aa4b;
   color: #070707;
+  box-shadow: 0 12px 26px rgba(214, 170, 75, 0.16);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(214, 170, 75, 0.34), transparent 64%);
+  opacity: 0.36;
+  transform: scale(0.96);
+  animation: cta-glow 3.8s ease-in-out infinite;
 }
 
 .btn-primary:hover {
   background: #f0c86a;
+}
+
+@keyframes cta-glow {
+  0%,
+  100% {
+    opacity: 0.26;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
 }
 
 .btn-secondary {
@@ -916,5 +984,16 @@ h1 {
 
 .rating span:hover {
   transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-panel::before {
+    animation: none;
+    display: none;
+  }
+
+  .btn-primary::after {
+    animation: none;
+  }
 }
 
